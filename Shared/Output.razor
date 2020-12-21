@@ -1,9 +1,13 @@
 ﻿
 <div class="alert alert-secondary mt-4" role="alert">
     <h3>Output</h3>
-    <ul class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3 bg-light bg-dark" style=" max-height: 250px;">
+    <ul class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3 bg-dark text-light" style=" max-height: 250px;">
         <li class="nav-item">
-           <p>item1</p>
+            @foreach (var item in Items)
+            {
+                <p>@item</p>
+            }
+
         </li>
        
     </ul>

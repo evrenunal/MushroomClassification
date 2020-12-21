@@ -3,28 +3,44 @@
 
     <div><label>Iterations: </label> <input @bind="iterations" type="number" /></div>
     <div><label>Alpha     : </label> <input @bind="alpha" type="number" step="0.001" /></div>
-    
 
 
-    <a href="#" class="btn btn-primary btn-lg @btn1state" role="button" aria-pressed="true">Start</a>
+
+    <a href="#" class="btn btn-primary btn-lg @btn1state" role="button" aria-pressed="true" @onclick="StartTraining">Start</a>
     <a href="#" class="btn btn-danger  @btn2state" role="button" aria-pressed="true">Stop</a>
 
 
-    <span class="text-nowrap">
 
-    </span>
 </div>
+<Output />
 
-@code {   
+@code {
 
     private string btn1state = "";
     private string btn2state = "disabled";
     private int iterations = 10;
     private double alpha = 0.005;
+    private Classifier classifier;
+    private List<string> outputs;
 
-    private void IncrementCount()
+    private void StartTraining()
     {
+        SwitchState();
 
+        classifier = new Classifier(iterations, alpha);
+        classifier.Start(ref outputs);
+
+        SwitchState();
+    }
+
+  
+
+
+    private void SwitchState()
+    {
+        var temp = btn1state;
+        btn1state = btn2state;
+        btn2state = temp;
     }
 
 }
