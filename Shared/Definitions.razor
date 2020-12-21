@@ -1,0 +1,30 @@
+﻿<div class="alert alert-secondary mt-4" role="alert">
+
+    <div class="col-sm-4">
+        <label class="panel-title">Definition</label>
+        <button @onclick="e => this.Collapsed = !this.Collapsed">
+            @( this.Collapsed ? "+" : "-")
+        </button>
+    </div>
+
+    <div class="panel panel-default border @(Collapsed? "collapse": "" ) ">
+        <div class="panel-heading alert-primary">
+            <span class="oi oi-book mr-2" aria-hidden="true"></span>
+            <strong>@Title</strong>
+            <p>This application aims to gues a mushroom is edible or not, by using its 22 specs.</p>
+            <p>It uses the dataset taken from <a>https://www.kaggle.com/uciml/mushroom-classification</a> More detailed description may be found in the link.</p>
+            <br />
+            <p>The Aplication uses neural network of simple 1 layer with stocastic gradient descent. With an aim of demonstrating simple deep learning process.</p>
+
+
+        </div>
+    </div>
+
+</div>
+
+
+    @code {
+        private bool Collapsed = true;
+        [Parameter]
+        public string Title { get; set; }
+    }
