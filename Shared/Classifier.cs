@@ -11,13 +11,16 @@ namespace MushroomClassification.Shared
     {
         public int iterations;
         public double alpha;
-        public Classifier(int iterations=15,double alpha=0.005)
+        private readonly NotifierService notifier;
+
+        public Classifier(NotifierService notifier)
         {
-            this. iterations = iterations;
-            this.alpha = alpha;
+            this.notifier = notifier;
         }
-        public void Start(ref List<string> output)
+
+        public async Task StartAsync( int iterations = 15, double alpha = 0.005)
         {
+            
             var lines = File.ReadLines("mushrooms.csv");
 
             (List<int> labels, List<int[]> features) = ParseInput(lines);
@@ -28,7 +31,7 @@ namespace MushroomClassification.Shared
             rand.seed(1);
             long colsize = trainx.shape.iDims[1];
             var weights01 = 0.2 * rand.randn(new shape(colsize, 1)) - 0.1;
-            var alpha = 0.01;
+           
 
 
             for (int j = 0; j < iterations; j++)
@@ -56,8 +59,8 @@ namespace MushroomClassification.Shared
                 var iterResult =
                     $"{j}: Train[ error={error},correct={percentcorrectT}%]   || Test [error={errorT},  correct={percentcorrectT}%]";
 
-                output.Add(iterResult);
-
+               // output.Add(iterResult);
+               await notifier.AddTolist(iterResult);
                 alpha *= 0.99;
             }
         }

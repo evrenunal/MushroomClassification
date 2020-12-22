@@ -13,11 +13,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\mushrooms.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Shared\Definitions.razor" />
     <None Include="Shared\MainLayout.razor" />
     <None Include="Shared\NavMenu.razor" />
     <None Include="Shared\Output.razor" />
     <None Include="Shared\Trainer.razor" />
+    <None Include="wwwroot\mushrooms.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

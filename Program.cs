@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MushroomClassification.Shared;
 
 namespace MushroomClassification
 {
@@ -19,6 +20,7 @@ namespace MushroomClassification
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
+            builder.Services.AddScoped<NotifierService>();
             await builder.Build().RunAsync();
         }
     }

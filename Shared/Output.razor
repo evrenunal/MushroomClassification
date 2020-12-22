@@ -1,21 +1,42 @@
-﻿
+﻿@inject NotifierService Notifier
+@implements IDisposable
+
 <div class="alert alert-secondary mt-4" role="alert">
     <h3>Output</h3>
     <ul class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3 bg-dark text-light" style=" max-height: 250px;">
         <li class="nav-item">
-            @foreach (var item in Items)
+            @foreach (var item in Notifier.ValuesList)
             {
                 <p>@item</p>
             }
 
         </li>
-       
+
     </ul>
 </div>
 
 
-    @code {
-       
-        [Parameter]
-        public string[] Items { get; set; }
+@code {
+
+   
+
+    public async Task OnNotify()
+    {
+        await InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
     }
+
+
+    protected override void OnInitialized()
+    {
+        Notifier.Notify += OnNotify;
+    }
+
+
+    public void Dispose()
+    {
+        Notifier.Notify -= OnNotify;
+    }
+}

@@ -1,4 +1,5 @@
-﻿<div class="alert alert-secondary mt-4" role="alert">
+﻿@inject NotifierService Notifier
+<div class="alert alert-secondary mt-4" role="alert">
 
 
     <div><label>Iterations: </label> <input @bind="iterations" type="number" /></div>
@@ -12,7 +13,7 @@
 
 
 </div>
-<Output />
+<Output/>
 
 @code {
 
@@ -23,17 +24,23 @@
     private Classifier classifier;
     private List<string> outputs;
 
-    private void StartTraining()
+    protected override void OnInitialized()
     {
-        SwitchState();
-
-        classifier = new Classifier(iterations, alpha);
-        classifier.Start(ref outputs);
-
-        SwitchState();
+        outputs = new List<string>();
+        classifier = new Classifier(Notifier);
     }
 
-  
+    private async void StartTraining()
+    {
+        //  SwitchState();
+
+
+      await  classifier.StartAsync();
+
+        //SwitchState();
+    }
+
+
 
 
     private void SwitchState()
