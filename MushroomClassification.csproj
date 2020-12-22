@@ -11,7 +11,7 @@
     <None Include="Shared\NavMenu.razor" />
     <None Include="Shared\Output.razor" />
     <None Include="Shared\Trainer.razor" />
-    <None Include="wwwroot\mushrooms.csv">
+    <None Include="wwwroot\static\mushrooms.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
