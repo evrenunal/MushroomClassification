@@ -6,17 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="NewFolder\**" />
-    <Content Remove="NewFolder\**" />
-    <EmbeddedResource Remove="NewFolder\**" />
-    <None Remove="NewFolder\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="wwwroot\mushrooms.csv" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Shared\Definitions.razor" />
     <None Include="Shared\MainLayout.razor" />
     <None Include="Shared\NavMenu.razor" />
@@ -33,12 +22,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="3.2.1" PrivateAssets="all" />
     <PackageReference Include="NumpyDotNet" Version="0.9.55" />
     <PackageReference Include="System.Net.Http.Json" Version="3.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="mushrooms.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

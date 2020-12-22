@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace MushroomClassification.Shared
@@ -20,8 +21,13 @@ namespace MushroomClassification.Shared
 
         public async Task StartAsync( int iterations = 15, double alpha = 0.005)
         {
-            
-            var lines = File.ReadLines("mushrooms.csv");
+            var _client = new HttpClient();
+
+             
+            var tableham = await _client.GetStringAsync("mushrooms.csv");
+
+
+            var lines = tableham.Split(Environment.NewLine);
 
             (List<int> labels, List<int[]> features) = ParseInput(lines);
 
