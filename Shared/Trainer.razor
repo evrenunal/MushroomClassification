@@ -1,17 +1,12 @@
 ﻿@inject HttpClient _client
 <div class="alert alert-secondary mt-4" role="alert">
 
+    <div><label>Iterations: </label> <input @bind="iterations" type="number" />
+    <label>Alpha: </label> <input @bind="Alpha" type="number" step="0.001" /></div>
 
-    <div><label>Iterations: </label> <input @bind="iterations" type="number" /></div>
-    <div><label>Alpha     : </label> <input @bind="alpha" type="number" step="0.001" /></div>
-
-
-
-    <a href="#" class="btn btn-primary btn-lg @btn1state" role="button" aria-pressed="true" @onclick="StartTraining">Start</a>
-    <a href="#" class="btn btn-danger  @btn2state" role="button" aria-pressed="true">Stop</a>
-
-
-
+    <a href="#" class="btn btn-primary btn-lg @btn1state" role="button" aria-pressed="true"
+       @onclick="StartTraining">Start</a>
+    <a href="#" class="btn btn-danger @btn2state" role="button" aria-pressed="true" @onclick="Stop">Stop</a>
 </div>
 
 
@@ -28,47 +23,46 @@
 
 
 @code {
-
+    bool isDisabled;
     private string btn1state = "";
     private string btn2state = "disabled";
     private int iterations = 10;
-    private double alpha = 0.005;
+    private double Alpha = 0.005;
     private string mushroomcsv;
-
+    private bool run;
     private List<string> outputs;
 
 
-   
+
 
     protected override async Task OnInitializedAsync()
     {
         mushroomcsv = await _client.GetStringAsync("static/mushrooms.csv");
         Console.WriteLine("done");
         outputs = new List<string>();
-        outputs.AddRange(new[] { "1", "2" });
 
         StateHasChanged();
     }
 
-
+    private async Task Stop()
+    {
+        run = false;
+    }
 
     private async Task StartTraining()
     {
-        //  SwitchState();
+        SwitchState();
 
+        outputs.Clear();
+        await Task.Yield();
+        run = true;
+        await   Start();
 
-     await   Start();
-
-        //SwitchState();
+        SwitchState();
     }
 
     public async Task Start()
     {
-
-        outputs.Add("in start");
-        outputs.Add("in 2");
-        StateHasChanged();
-        await Task.Delay(1);
         var lines = mushroomcsv.Split(Environment.NewLine);
 
         (List<int> labels, List<int[]> features) = ParseInput(lines);
@@ -79,7 +73,7 @@
         rand.seed(1);
         long colsize = trainx.shape.iDims[1];
         var weights01 = 0.2 * rand.randn(new shape(colsize, 1)) - 0.1;
-
+        var  alpha = Alpha;
 
 
         for (int j = 0; j < iterations; j++)
@@ -89,6 +83,12 @@
             var imagecount = trainx.Count()/10;
             for (int i = 0; i < imagecount; i++)
             {
+                if (i % 500 == 0)
+                {
+                    await Task.Delay(1);
+                    if (!run) break;
+                }
+
                 var layer0 = (ndarray)trainx[new Slice(i, i + 1)];
                 var layer1 = np.dot(layer0, weights01);
                 var label = trainy[i];
@@ -100,17 +100,18 @@
                 weights01 -= w01update * alpha;
 
                 if ((double)error < 0.25) correctCnt++;
-
             }
+            if (!run) break;
+
             var percentCorrect = correctCnt * 100 / testx.Count();
 
             (double percentcorrectT, double errorT) = Test(testx, testy, weights01);
             var iterResult =
-                $"{j}: Train[ error={error},correct={percentcorrectT}%]   || Test [error={errorT},  correct={percentcorrectT}%]";
+                $"Iteration {j}: Train[ error={error},correct={percentcorrectT}%]   || Test [error={errorT},  correct={percentcorrectT}%]";
 
             outputs.Insert(0,iterResult);
             StateHasChanged();
-            await Task.Delay(1);
+            await Task.Delay(10);
 
             alpha *= 0.99;
         }
