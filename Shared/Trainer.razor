@@ -1,22 +1,42 @@
 ﻿@inject HttpClient _client
 <div class="alert alert-secondary mt-4" role="alert">
 
-    <div><label>Iterations: </label> <input @bind="iterations" type="number" />
-    <label>Alpha: </label> <input @bind="Alpha" type="number" step="0.001" /></div>
+    <div>
+        <label>Iterations: </label> <input @bind="iterations" type="number" />
+        <label>Alpha: </label> <input @bind="Alpha" type="number" step="0.001" />
+    </div>
 
     <a href="#" class="btn btn-primary btn-lg @btn1state" role="button" aria-pressed="true"
-       @onclick="StartTraining">Start</a>
+       @onclick="StartTraining">
+        <span class="@(run ? "spinner-border spinner-border-sm":"")" role="status" aria-hidden="true"></span>
+        Start
+    </a>
+ 
     <a href="#" class="btn btn-danger @btn2state" role="button" aria-pressed="true" @onclick="Stop">Stop</a>
+    
 </div>
 
 
 <div class="alert alert-secondary mt-4" role="alert">
-    <h3>Output</h3>
+    <h3>Output</h3>    
     <div class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3 bg-dark text-light" style=" max-height: 250px;">
            @if (outputs?.Any() == true)
-            @foreach (var item in outputs)
+            @for (int i= outputs.Count-1; i>=0;i--)
             {
-                <p>@item</p>
+        <div class="container">
+            <div class="row border-dark">
+                <div class="col-1">
+                  Iteration @i+1 :
+                </div>
+                <div class="col-5">
+                    @outputs[i].Item1
+                </div>
+                <div class="col-5 border-dark">
+                    @outputs[i].Item2
+                </div>
+
+            </div>
+        </div>
             }
      </div>
 </div>
@@ -30,7 +50,7 @@
     private double Alpha = 0.005;
     private string mushroomcsv;
     private bool run;
-    private List<string> outputs;
+    private List<(string, string)> outputs;
 
 
 
@@ -39,7 +59,7 @@
     {
         mushroomcsv = await _client.GetStringAsync("static/mushrooms.csv");
         Console.WriteLine("done");
-        outputs = new List<string>();
+        outputs = new List<(string,string)>();
 
         StateHasChanged();
     }
@@ -106,10 +126,11 @@
             var percentCorrect = correctCnt * 100 / testx.Count();
 
             (double percentcorrectT, double errorT) = Test(testx, testy, weights01);
-            var iterResult =
-                $"Iteration {j}: Train[ error={error},correct={percentcorrectT}%]   || Test [error={errorT},  correct={percentcorrectT}%]";
+            var trainResult =
+                $"Train[ error={error},correct={percentcorrectT}%]";
+            var testResult=$"Test [error={errorT},  correct={percentcorrectT}%]";
 
-            outputs.Insert(0,iterResult);
+            outputs.Insert(0,(trainResult,testResult));
             StateHasChanged();
             await Task.Delay(10);
 
