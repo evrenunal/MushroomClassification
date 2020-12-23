@@ -131,7 +131,7 @@
                 $"Train[ error={error},correct={percentcorrectT}%]";
             var testResult=$"Test [error={errorT},  correct={percentcorrectT}%]";
 
-            outputs.Insert(0,(trainResult,testResult));
+            outputs.Add((trainResult,testResult));
             StateHasChanged();
             await Task.Delay(10);
 
