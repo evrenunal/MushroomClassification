@@ -8,7 +8,7 @@
 
     <a href="#" class="btn btn-primary btn-lg @btn1state" role="button" aria-pressed="true"
        @onclick="StartTraining">
-        <span class="@(run ? "spinner-border spinner-border-sm":"")" role="status" aria-hidden="true"></span>
+        <span class="@(running ? "spinner-border spinner-border-sm":"")" role="status" aria-hidden="true"></span>
         Start
     </a>
  
@@ -50,7 +50,7 @@
     private int iterations = 10;
     private double Alpha = 0.005;
     private string mushroomcsv;
-    private bool run;
+    private bool running;
     private List<(string, string)> outputs;
 
 
@@ -67,7 +67,7 @@
 
     private async Task Stop()
     {
-        run = false;
+        running = false;
     }
 
     private async Task StartTraining()
@@ -76,8 +76,9 @@
 
         outputs.Clear();
         await Task.Yield();
-        run = true;
+        running = true;
         await   Start();
+        running = false;
 
         SwitchState();
     }
@@ -107,7 +108,7 @@
                 if (i % 500 == 0)
                 {
                     await Task.Delay(1);
-                    if (!run) break;
+                    if (!running) break;
                 }
 
                 var layer0 = (ndarray)trainx[new Slice(i, i + 1)];
@@ -122,7 +123,7 @@
 
                 if ((double)error < 0.25) correctCnt++;
             }
-            if (!run) break;
+            if (!running) break;
 
             var percentCorrect = correctCnt * 100 / testx.Count();
 
@@ -236,9 +237,9 @@
 
     private void SwitchState()
     {
-        var temp = btn1state;
-        btn1state = btn2state;
-        btn2state = temp;
+        btn1state = running ? "disabled" : "";
+        btn2state = running ? "" : "disabled";
+
     }
 
 }
