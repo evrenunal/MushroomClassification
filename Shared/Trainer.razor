@@ -25,14 +25,14 @@
             @for (int i = outputs.Count - 1; i >= 0; i--)
             {
 
-                <div class="row border-dark text-nowrap flex-nowrap ">
-                    <div class="">
+                <div class="row border-dark text-nowrap flex-nowrap" >
+                    <div class="col-md-2">
                         Iteration @(i+1) :
                     </div>
-                    <div class="">
+                    <div class="col-md-5">
                         @outputs[i].Item1
                     </div>
-                    <div class="">
+                    <div class="col-md-5 float-right">
                         @outputs[i].Item2
                     </div>
 
@@ -101,7 +101,7 @@
         {
             double error = 0;
             int correctCnt = 0;
-            var imagecount = trainx.Count()/10;
+            var imagecount = trainx.Count()
             for (int i = 0; i < imagecount; i++)
             {
                 if (i % 500 == 0)
@@ -143,7 +143,7 @@
     {
         int correctCnt = 0;
         double error = 0;
-        for (int i = 0; i < testx.Count()/10; i++)
+        for (int i = 0; i < testx.Count(); i++)
         {
             var layer0 = (ndarray)testx[new Slice(i, i + 1)];
             var layer1 = np.dot(layer0, weights01);
