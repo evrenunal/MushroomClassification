@@ -100,7 +100,7 @@
 
         for (int j = 0; j < iterations; j++)
         {
-            double error = 0;
+            double errorTot = 0;
             int correctCnt = 0;
             var imagecount = trainx.Count();
             for (int i = 0; i < imagecount; i++)
@@ -116,7 +116,8 @@
                 var label = trainy[i];
                 var delta1 = layer1 - label;
 
-                error = (double)(delta1 * delta1);
+                var error = (double)(delta1 * delta1);
+                errorTot += error;
 
                 var w01update = np.dot(layer0.T, delta1);
                 weights01 -= w01update * alpha;
@@ -125,12 +126,12 @@
             }
             if (!running) break;
 
-            var percentCorrect = correctCnt * 100 / testx.Count();
+            var percentCorrect = correctCnt * 100 / imagecount;
 
-            (double percentcorrectT, double errorT) = Test(testx, testy, weights01);
+            (double percentcorrectT, double errorTst) = Test(testx, testy, weights01);
             var trainResult =
-                $"Train[ error={error},correct={percentcorrectT}%]";
-            var testResult=$"Test [error={errorT},  correct={percentcorrectT}%]";
+                $"Train[ error={errorTot/imagecount},correct={percentCorrect}%]";
+            var testResult=$"Test [error={errorTst},  correct={percentcorrectT}%]";
 
             outputs.Add((trainResult,testResult));
             StateHasChanged();
@@ -143,18 +144,20 @@
     private (double percentcorrect, double error) Test(ndarray testx, ndarray testy, ndarray weights01)
     {
         int correctCnt = 0;
-        double error = 0;
-        for (int i = 0; i < testx.Count(); i++)
+        double errorTot = 0;
+        var tstCnt = testx.Count();
+        for (int i = 0; i < tstCnt; i++)
         {
             var layer0 = (ndarray)testx[new Slice(i, i + 1)];
             var layer1 = np.dot(layer0, weights01);
             var label = testy[i];
             var delta1 = layer1 - label;
-            error = (double)(delta1 * delta1);
+            var error = (double)(delta1 * delta1);
             if ((double)error < 0.25) correctCnt++;
+            errorTot += error;
         }
-        var percentCorrect = correctCnt * 100 / testx.Count();
-        return (percentCorrect, error);
+        var percentCorrect = correctCnt * 100 / tstCnt;
+        return (percentCorrect, errorTot/ tstCnt);
     }
 
     private ((ndarray trainx, ndarray trainy), (ndarray testx, ndarray testy))
