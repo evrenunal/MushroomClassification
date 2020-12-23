@@ -18,27 +18,28 @@
 
 
 <div class="alert alert-secondary mt-4" role="alert">
-    <h3>Output</h3>    
-    <div class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3 bg-dark text-light" style="max-height: 250px;">
-           @if (outputs?.Any() == true)
-            @for (int i= outputs.Count-1; i>=0;i--)
+    <h3>Output</h3>
+    <div class="container bg-dark text-light " style="max-height: 250px; overflow-x: scroll;">
+        @if (outputs?.Any() == true)
+
+            @for (int i = outputs.Count - 1; i >= 0; i--)
             {
-        <div class="container">
-            <div class="row border-dark flex-nowrap">
-                <div class="col-2">
-                  Iteration @(i+1) :
-                </div>
-                <div class="col-5">
-                    @outputs[i].Item1
-                </div>
-                <div class="col-5 border-dark">
-                    @outputs[i].Item2
+
+                <div class="row border-dark text-nowrap flex-nowrap ">
+                    <div class="">
+                        Iteration @(i+1) :
+                    </div>
+                    <div class="">
+                        @outputs[i].Item1
+                    </div>
+                    <div class="">
+                        @outputs[i].Item2
+                    </div>
+
                 </div>
 
-            </div>
-        </div>
             }
-     </div>
+    </div>
 </div>
 
 
