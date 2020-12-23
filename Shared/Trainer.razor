@@ -19,14 +19,14 @@
 
 <div class="alert alert-secondary mt-4" role="alert">
     <h3>Output</h3>    
-    <div class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3 bg-dark text-light" style=" max-height: 250px;">
+    <div class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3 bg-dark text-light" style="max-height: 250px;">
            @if (outputs?.Any() == true)
             @for (int i= outputs.Count-1; i>=0;i--)
             {
         <div class="container">
-            <div class="row border-dark">
-                <div class="col-1">
-                  Iteration @i+1 :
+            <div class="row border-dark flex-nowrap">
+                <div class="col-2">
+                  Iteration @(i+1) :
                 </div>
                 <div class="col-5">
                     @outputs[i].Item1

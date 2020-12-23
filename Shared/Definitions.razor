@@ -8,8 +8,7 @@
     </div>
 
     <div class="panel panel-default border @(Collapsed? "collapse": "" ) ">
-        <div class="panel-heading alert-primary">
-            <span class="oi oi-book mr-2" aria-hidden="true"></span>
+        <div class="panel-heading alert-primary">            
             <strong>@Title</strong>
             <p>This application aims to gues a mushroom is edible or not, by using its 22 specs.</p>
             <p>It uses the dataset taken from <a href="https://www.kaggle.com/uciml/mushroom-classification" target="_blank">Kaggle Mushroom Classification</a> More detailed description may be found in the link.</p>
@@ -18,7 +17,7 @@
 
 
         </div>
-        <table class="table">
+        <table class="table flex-nowrap border-dark">
             <thead>
                 <tr>                   
                     <th scope="col">cap-shape</th>
@@ -33,28 +32,48 @@
             </thead>
             <tbody>
                 <tr>
-                    <td scope="col">cap-shape</td>
-                    <td scope="col">cap-surface</td>
-                    <td scope="col">cap-color</td>
-                    <td scope="col">bruises</td>
-                    <td scope="col">odor</td>
+                    <td scope="col">x</td>
+                    <td scope="col">s</td>
+                    <td scope="col">n</td>
+                    <td scope="col">t</td>
+                    <td scope="col">p</td>
                     <td scope="col">.....</td>
-                    <td scope="col">habitat</td>
-                    <td scope="col">class(label)</td>
+                    <td scope="col">u</td>
+                    <td scope="col">p</td>
                 </tr>
                 <tr>
-                    <td scope="col">cap-shape</td>
-                    <td scope="col">cap-surface</td>
-                    <td scope="col">cap-color</td>
-                    <td scope="col">bruises</td>
-                    <td scope="col">odor</td>
+                    <td scope="col">x</td>
+                    <td scope="col">s</td>
+                    <td scope="col">y</td>
+                    <td scope="col">t</td>
+                    <td scope="col">a</td>
                     <td scope="col">.....</td>
-                    <td scope="col">habitat</td>
-                    <td scope="col">class(label)</td>
+                    <td scope="col">g</td>
+                    <td scope="col">e</td>
                 </tr>
-              
+                <tr>
+                    <td scope="col">.<br />.<br />.<br />.</td>
+                    <td scope="col">.<br />.<br />.<br />.</td>
+                    <td scope="col">.<br />.<br />.<br />.</td>
+                    <td scope="col">.<br />.<br />.<br />.</td>
+                    <td scope="col">.<br />.<br />.<br />.</td>
+                    <td scope="col">.....<br />.....<br />.....<br />....</td>
+                    <td scope="col">.<br />.<br />.<br />.</td>
+                    <td scope="col">.<br />.<br />.<br />.</td>
+                </tr>
+                <tr>
+                    <td scope="col">f</td>
+                    <td scope="col">s</td>
+                    <td scope="col">w</td>
+                    <td scope="col">t</td>
+                    <td scope="col">p</td>
+                    <td scope="col">.....</td>
+                    <td scope="col">g</td>
+                    <td scope="col">?</td>
+                </tr>
             </tbody>
         </table>
+        <p class="small border-0">Application is serverless and all the calculation is done by the browser.</p>
     </div>
 
 </div>
